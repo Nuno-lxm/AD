@@ -1,0 +1,15 @@
+fazer lista de encomendas e lista de medicamentos por fornecedor
+top se der para carregar neles a partir dai
+
+um medicamento varios fornecedores - gpt ja disse como
+
+nao dar para editar mais, desaparecer os botoes editar e confirmar de detalhes de encomenda
+o stock aumentar direito e nao so quando apaga
+
+possibilidade de voltar de encoemdna forcar atualizacao de stock, force rrfersh de alguma forma
+
+e por botao de confirmar num sitio melhor
+
+por os urls bem foramtados e consistentes
+
+ver os brasileirimsos e os comentarios do gpt

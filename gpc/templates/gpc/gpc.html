@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Ato - GPC</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <h1>Registrar Ato - GPC</h1>
+
+    <form id="gpc-ato-form">
+        <label for="gpc-utente">Utente:</label>
+        <select id="gpc-utente" name="utente"></select><br><br>
+
+        <label for="gpc-profissional">Profissional:</label>
+        <select id="gpc-profissional" name="profissional"></select><br><br>
+
+        <label for="gpc-tipo">Tipo de Ato:</label>
+        <input type="text" id="gpc-tipo" name="tipo"><br><br>
+
+        <label for="gpc-descricao">Descrição:</label>
+        <textarea id="gpc-descricao" name="descricao"></textarea><br><br>
+
+        <button type="submit">Registrar Ato (GPC)</button>
+    </form>
+
+    <div id="gpc-ato-response"></div>
+
+    <script>
+        $('#gpc-ato-form').submit(function(e) {
+            e.preventDefault();
+
+            var atoData = {
+                utente: $('#gpc-utente').val(),
+                profissional: $('#gpc-profissional').val(),
+                tipo: $('#gpc-tipo').val(),
+                descricao: $('#gpc-descricao').val(),
+            };
+
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api/gpc/atos/',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(atoData),
+                success: function(response) {
+                    $('#gpc-ato-response').html('<p>Ato registrado com sucesso!</p>');
+                },
+                error: function(xhr) {
+                    $('#gpc-ato-response').html('<p>Erro ao registrar Ato: ' + xhr.responseText + '</p>');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

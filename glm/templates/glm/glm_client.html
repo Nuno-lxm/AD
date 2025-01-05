@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLM Client</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #333;
+        }
+        .list-container {
+            max-height: 200px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .item {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .item-details {
+            margin-top: 5px;
+            padding: 5px;
+            background-color: #eee;
+            border-radius: 5px;
+        }
+        .item-name {
+            font-weight: bold;
+        }
+        .item-info {
+            margin: 5px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            background-color: #007bff; /* Cor do botão */
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3; /* Cor ao passar o cursor */
+        }
+        .btn-primary {
+            background-color: #007bff;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Cliente GLM</h1>
+
+    <!-- Seção de Fornecedores -->
+    <div class="section">
+        <h2>Fornecedores</h2>
+        <div class="list-container">
+            {% if fornecedores %}
+                {% for fornecedor in fornecedores %}
+                    <div class="item">
+                        <a href="{% url 'detalhes_fornecedor' fornecedor.id %}" class="item-name">{{ fornecedor.nome }}</a>
+                        <div class="item-details">
+                            <div class="item-info"><strong>Email:</strong> {{ fornecedor.email }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Nenhum fornecedor encontrado.</p>
+            {% endif %}
+        </div>
+        <a href="{% url 'adicionar_fornecedor' %}" class="btn btn-primary">Adicionar Fornecedor</a>
+    </div>
+
+    <!-- Seção de Medicamentos -->
+    <div class="section">
+        <h2>Medicamentos</h2>
+        <div class="list-container">
+            {% if medicamentos %}
+                {% for medicamento in medicamentos %}
+                    <div class="item">
+                        <a href="{% url 'detalhes_medicamento' medicamento.id %}" class="item-name">{{ medicamento.nome }}</a>
+                        <div class="item-details">
+                            <div class="item-info"><strong>Stock:</strong> {{ medicamento.stock }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Nenhum medicamento encontrado.</p>
+            {% endif %}
+        </div>
+        <a href="{% url 'adicionar_medicamento' %}" class="btn btn-primary">Adicionar Medicamento</a>
+    </div>
+
+    <!-- Seção de Encomendas -->
+    <div class="section">
+        <h2>Encomendas</h2>
+        <div class="list-container">
+            {% if encomendas %}
+                {% for encomenda in encomendas %}
+                    <div class="item">
+                        <a href="{% url 'detalhes_encomenda' encomenda.id %}" class="item-name">Encomenda #{{ encomenda.id }}</a>
+                        <div class="item-details">
+                            <div class="item-info"><strong>Medicamento:</strong> {{ encomenda.medicamento.nome }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Nenhuma encomenda encontrada.</p>
+            {% endif %}
+        </div>
+        <a href="{% url 'adicionar_encomenda' %}" class="btn btn-primary">Adicionar Encomenda</a>
+    </div>
+
+</body>
+</html>

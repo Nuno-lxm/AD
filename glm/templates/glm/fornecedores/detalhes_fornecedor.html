@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes Fornecedor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .form-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        .detalhes p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #555;
+        }
+        .detalhes strong {
+            color: #333;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        button, a.btn {
+            padding: 10px;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            color: white;
+            text-decoration: none;
+        }
+        .btn-edit {
+            background-color: #007bff;
+        }
+        .btn-delete {
+            background-color: #dc3545;
+        }
+        .btn-cancel {
+            background-color: #6c757d;
+        }
+        button:hover, a.btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Estilo da lista de encomendas */
+        .list-container {
+            max-height: 200px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .item {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .item-details {
+            margin-top: 5px;
+            padding: 5px;
+            background-color: #eee;
+            border-radius: 5px;
+        }
+        .item-name {
+            font-weight: bold;
+        }
+        .item-info {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Detalhes do Fornecedor: {{ fornecedor.nome }}</h2>
+    <div class="detalhes">
+        <p><strong>ID:</strong> {{ fornecedor.id }}</p>
+        <p><strong>Nome:</strong> {{ fornecedor.nome }}</p>
+        <p><strong>Contacto:</strong> {{ fornecedor.contacto }}</p>
+        <p><strong>Email:</strong> {{ fornecedor.email }}</p>
+    </div>
+
+    <!-- Lista de Encomendas do Fornecedor -->
+    <div class="section">
+        <h2>Encomendas</h2>
+        <div class="list-container">
+            {% if encomendas %}
+                {% for encomenda in encomendas %}
+                    <div class="item">
+                        <a href="{% url 'detalhes_encomenda' encomenda.id %}" class="item-name">Encomenda #{{ encomenda.id }}</a>
+                        <div class="item-details">
+                            <div class="item-info"><strong>Medicamento:</strong> {{ encomenda.medicamento.nome }}</div>
+                            <div class="item-info"><strong>Quantidade:</strong> {{ encomenda.quantidade }}</div>
+                            <div class="item-info"><strong>Data da Encomenda:</strong> {{ encomenda.data_encomenda }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Nenhuma encomenda encontrada para este fornecedor.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Medicamentos</h2>
+        <div class="list-container">
+            {% if medicamentos %}
+                {% for medicamento in medicamentos %}
+                    <div class="item">
+                        <a href="{% url 'detalhes_medicamento' medicamento.id %}" class="item-name">{{ medicamento.nome }}</a>
+                        <div class="item-details">
+                            <div class="item-info"><strong>Stock:</strong> {{ medicamento.stock }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Nenhum medicamento encontrado para este fornecedor.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="btn-container">
+        <a href="javascript:window.history.back();" class="btn btn-cancel">Voltar</a>
+        <a href="{% url 'editar_fornecedor' fornecedor.id %}" class="btn btn-edit">Editar</a>
+        <a href="{% url 'apagar_fornecedor' fornecedor.id %}" class="btn btn-delete">Apagar</a>
+    </div>
+</div>
+
+</body>
+</html>

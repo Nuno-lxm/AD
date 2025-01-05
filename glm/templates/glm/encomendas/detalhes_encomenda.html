@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes Encomenda</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .form-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        .detalhes p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #555;
+        }
+        .detalhes strong {
+            color: #333;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        button, a.btn {
+            padding: 10px;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            color: white;
+            text-decoration: none;
+        }
+        .btn-edit {
+            background-color: #007bff;
+        }
+        .btn-delete {
+            background-color: #dc3545;
+        }
+        .btn-cancel {
+            background-color: #6c757d;
+        }
+        button:hover, a.btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Detalhes da Encomenda ID: {{ encomenda.id }}</h2>
+    <div class="detalhes">
+        <p><strong>ID:</strong> {{ encomenda.id }}</p>
+        <p><strong>Medicamento:</strong> <a href="{% url 'detalhes_medicamento' encomenda.medicamento.id %}" class="item-name">{{ encomenda.medicamento.nome }}</a></p>
+        <p><strong>Fornecedor:</strong> <a href="{% url 'detalhes_fornecedor' encomenda.fornecedor.id %}" class="item-name">{{ encomenda.fornecedor.nome }}</a><p>
+        <p><strong>Quantidade:</strong> {{ encomenda.quantidade }}</p>
+        <p><strong>Data da Encomenda:</strong> {{ encomenda.data_encomenda }}</p>
+        <p><strong>Concluída:</strong> {% if encomenda.concluida %} Sim {% else %} Não {% endif %}</p>
+        <p><strong>Data de Confirmação:</strong> {% if encomenda.data_confirmacao %} {{ encomenda.data_confirmacao }} {% else %} Não Confirmada {% endif %}</p>
+        <a href="{% url 'confirmar_encomenda' encomenda.id %}" class="btn btn-success">Confirmar Encomenda</a>
+    </div>
+    <div class="btn-container">
+        <a href="javascript:window.history.back();" class="btn btn-cancel">Voltar</a>
+        <a href="{% url 'editar_encomenda' encomenda.id %}" class="btn btn-edit">Editar</a>
+        <a href="{% url 'apagar_encomenda' encomenda.id %}" class="btn btn-delete">Apagar</a>
+    </div>
+</div>
+
+</body>
+</html>
