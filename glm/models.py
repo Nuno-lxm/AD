@@ -1,11 +1,13 @@
 from datetime import datetime
 
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
 import uuid
 
 class Fornecedor(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     nome = models.CharField(max_length=100)
     contacto = models.CharField(max_length=15)
     email = models.EmailField()

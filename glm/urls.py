@@ -1,14 +1,16 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from django.contrib.auth import views as auth_views
 from .views import EncomendaViewSet, MedicamentoViewSet, FornecedorViewSet, AtualizarMedicamentoView, glm_client, \
     adicionar_fornecedor, adicionar_medicamento, adicionar_encomenda, editar_fornecedor, apagar_fornecedor, \
     editar_medicamento, apagar_medicamento, editar_encomenda, apagar_encomenda, fornecedor_detalhes, encomenda_detalhes, \
-    medicamento_detalhes, confirmar_encomenda
+    medicamento_detalhes, confirmar_encomenda, register_user, UserViewSet, apagar_user, user_detalhes, login_view
 
 router = DefaultRouter()
 router.register(r'encomendas', EncomendaViewSet)
 router.register(r'medicamentos', MedicamentoViewSet)
 router.register(r'fornecedores', FornecedorViewSet)
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
@@ -32,4 +34,13 @@ urlpatterns = [
     path('encomenda/editar/<uuid:id>/', editar_encomenda, name='editar_encomenda'),
     path('encomenda/apagar/<uuid:id>/', apagar_encomenda, name='apagar_encomenda'),
     path('confirmar_encomenda/<uuid:id>/', confirmar_encomenda, name='confirmar_encomenda'),
+
+    #URLs para User
+    path('login/', login_view, name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('register/', register_user, name='register'),
+# URLs para User
+    path('user/detalhes/<int:user_id>/', user_detalhes, name='detalhes_user'),
+    path('users/apagar/<int:user_id>/', apagar_user, name='apagar_user'),
+
 ] + router.urls

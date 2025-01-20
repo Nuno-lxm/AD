@@ -1,7 +1,16 @@
-fazer lista de encomendas e lista de medicamentos por fornecedor
-top se der para carregar neles a partir dai
+:)fazer lista de encomendas e lista de medicamentos por fornecedor
+:)top se der para carregar neles a partir dai
 
+maganer criar users?
+
+lista de forncedores por medicamento
 um medicamento varios fornecedores - gpt ja disse como
+
+confirmar questao de threshold
+
+tirar botao de editar os detalhes se for fornecedor
+
+fornecedores, ao ver medicamento, nao lhes interessa ver lista de fornecedores
 
 nao dar para editar mais, desaparecer os botoes editar e confirmar de detalhes de encomenda
 o stock aumentar direito e nao so quando apaga
