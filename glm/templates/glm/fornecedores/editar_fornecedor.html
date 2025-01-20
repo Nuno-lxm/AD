@@ -21,7 +21,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             max-width: 400px;
-            width: 100%; /* Faz o contêiner ocupar 100% da largura */
+            width: 100%;
         }
         h2 {
             margin-bottom: 20px;
@@ -31,7 +31,7 @@
         form {
             display: flex;
             flex-direction: column;
-            width: 100%; /* Garante que o formulário ocupa 100% */
+            width: 100%;
         }
         label {
             font-weight: bold;
@@ -40,13 +40,13 @@
             color: #555;
         }
         input, select, button, a.btn {
-            width: 100%; /* Garante que os elementos ocupem 100% da largura */
+            width: 100%;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
-            font-size: 16px; /* Aumenta o tamanho da fonte para melhor usabilidade */
+            font-size: 16px;
         }
         button, a.btn {
             border: none;
@@ -73,7 +73,7 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="button" class="btn btn-submit" onclick="window.history.back()">Salvar Alterações</button>
+        <button type="submit" class="btn btn-submit">Salvar Alterações</button>
         <a href="javascript:window.history.back();" class="btn btn-cancel">Cancelar</a>
     </form>
 </div>

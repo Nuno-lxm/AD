@@ -73,7 +73,7 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="button" class="btn btn-submit" onclick="window.history.back()">Salvar Alterações</button>
+        <button type="submit" class="btn btn-submit">Salvar Alterações</button>
         <a href="javascript:window.history.back();" class="btn btn-cancel">Cancelar</a>
     </form>
 </div>
