@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cliente GPC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #333;
+        }
+        .list-container {
+            max-height: 200px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .item {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .item-details {
+            margin-top: 5px;
+            padding: 5px;
+            background-color: #eee;
+            border-radius: 5px;
+        }
+        .item-name {
+            font-weight: bold;
+        }
+        .item-info {
+            margin: 5px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .btn-primary {
+            background-color: #007bff;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        .logout-btn {
+            background-color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Cliente GPC</h1>
+
+    {% if user.is_authenticated %}
+        <div class="section">
+            <!-- Botão de Logout -->
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn logout-btn">Logout</button>
+            </form>
+        </div>
+
+        {% if user.is_staff %}
+            <!-- Seção visível apenas para o staff -->
+            <div class="section">
+                <h2>Utentes</h2>
+                <div class="list-container">
+                    {% if utentes %}
+                        {% for utente in utentes %}
+                            <div class="item">
+                                <a href="{% url 'detalhes_utente' utente.id %}" class="item-name">{{ utente.nome }} {{ utente.apelido }}</a>
+                                <div class="item-details">
+                                    <div class="item-info"><strong>Data de Nascimento:</strong> {{ utente.data_nascimento }}</div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>Nenhum utente encontrado.</p>
+                    {% endif %}
+                </div>
+                <a href="{% url 'adicionar_utente' %}" class="btn btn-primary">Adicionar Utente</a>
+            </div>
+
+            <div class="section">
+                <h2>Profissionais</h2>
+                <div class="list-container">
+                    {% if profissionais %}
+                        {% for profissional in profissionais %}
+                            <div class="item">
+                                <a href="{% url 'detalhes_profissional' profissional.id %}" class="item-name">{{ profissional.nome }} {{ profissional.apelido }} ({{ profissional.profissao }})</a>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>Nenhum profissional encontrado.</p>
+                    {% endif %}
+                </div>
+                <a href="{% url 'adicionar_profissional' %}" class="btn btn-primary">Adicionar Profissional</a>
+            </div>
+
+            <div class="section">
+                <h2>Receitas</h2>
+                <div class="list-container">
+                    {% if receitas %}
+                        {% for receita in receitas %}
+                            <div class="item">
+                                <a href="{% url 'detalhes_receita' receita.id %}" class="item-name">Receita #{{ receita.id }}</a>
+                                <div class="item-details">
+                                    <div class="item-info"><strong>Descrição:</strong> {{ receita.descricao }}</div>
+                                    <div class="item-info"><strong>Data:</strong> {{ receita.data|date:"d/m/Y" }}</div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>Nenhuma receita encontrada.</p>
+                    {% endif %}
+                </div>
+                <a href="{% url 'adicionar_receita' %}" class="btn btn-primary">Adicionar Receita</a>
+            </div>
+
+            <div class="section">
+                <h2>Prescrições</h2>
+                <div class="list-container">
+                    {% if prescricoes %}
+                        {% for prescricao in prescricoes %}
+                            <div class="item">
+                                <a href="{% url 'detalhes_prescricao' prescricao.id %}" class="item-name">Prescrição #{{ prescricao.id }}</a>
+                                <div class="item-details">
+                                    <div class="item-info"><strong>Medicamento:</strong> {{ prescricao.medicamento.nome }}</div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>Nenhuma prescrição encontrada.</p>
+                    {% endif %}
+                </div>
+                <a href="{% url 'adicionar_prescricao' %}" class="btn btn-primary">Adicionar Prescrição</a>
+            </div>
+
+            <!-- Nova seção para Atos -->
+            <div class="section">
+                <h2>Atos</h2>
+                <div class="list-container">
+                    {% if atos %}
+                        {% for ato in atos %}
+                            <div class="item">
+                                <a href="{% url 'detalhes_ato' ato.id %}" class="item-name">Ato #{{ ato.id }}</a>
+                                <div class="item-details">
+                                    <div class="item-info"><strong>Descrição:</strong> {{ ato.descricao }}</div>
+                                    <div class="item-info"><strong>Data:</strong> {{ ato.data|date:"d/m/Y" }}</div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>Nenhum ato encontrado.</p>
+                    {% endif %}
+                </div>
+                <a href="{% url 'adicionar_ato' %}" class="btn btn-primary">Adicionar Ato</a>
+            </div>
+
+        {% else %}
+            <!-- Seção visível apenas para profissionais -->
+            <div class="section">
+                <h2>Suas Prescrições</h2>
+                <div class="list-container">
+                    {% if prescricoes %}
+                        {% for prescricao in prescricoes %}
+                            <div class="item">
+                                <a href="{% url 'detalhes_prescricao' prescricao.id %}" class="item-name">Prescrição #{{ prescricao.id }}</a>
+                                <div class="item-details">
+                                    <div class="item-info"><strong>Medicamento:</strong> {{ prescricao.medicamento.nome }}</div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>Nenhuma prescrição encontrada.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="section">
+                <a href="{% url 'detalhes_user' user.id %}" class="btn btn-primary">Meu Perfil</a>
+            </div>
+
+        {% endif %}
+    {% else %}
+        <div class="section">
+            <h2>Você precisa estar logado para acessar esta página</h2>
+            <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+            <a href="{% url 'register' %}" class="btn btn-primary">Registrar-se</a>
+        </div>
+    {% endif %}
+</body>
+</html>

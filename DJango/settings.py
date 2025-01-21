@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'DJango.middleware.DynamicLoginRedirectMiddleware'
 ]
 
 ROOT_URLCONF = 'DJango.urls'
@@ -126,4 +127,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_URL = 'login'
+LOGIN_EXEMPT_URLS = [
+    '/glm/login/',
+    '/gpc/login/',
+    '/accounts/register/',  # Se existir uma rota de registro genérica
+    '/glm/register/',
+    '/gpc/register/',
+]

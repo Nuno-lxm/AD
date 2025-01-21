@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Profissional</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .form-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: #555;
+        }
+        input, select, button, a.btn {
+            width: 100%; /* Garante que todos os campos e botões ocupem 100% da largura */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button, a.btn {
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            color: white;
+            text-decoration: none;
+        }
+        .btn-submit {
+            background-color: #28a745;
+        }
+        .btn-cancel {
+            background-color: #dc3545;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Adicionar Profissional</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="id_nome">Nome:</label>
+        <input type="text" id="id_nome" name="nome" required>
+
+        <label for="id_apelido">Apelido:</label>
+        <input type="text" id="id_apelido" name="apelido" required>
+
+        <label for="id_profissao">Profissão:</label>
+        <select id="id_profissao" name="profissao" required>
+            <option value="Médico">Médico</option>
+            <option value="Enfermeiro">Enfermeiro</option>
+            <option value="Farmacêutico">Farmacêutico</option>
+        </select>
+
+        <button type="submit" class="btn btn-submit">Submeter</button>
+        <a href="{% url 'gpc_client' %}" class="btn btn-cancel">Cancelar</a>
+    </form>
+</div>
+
+</body>
+</html>

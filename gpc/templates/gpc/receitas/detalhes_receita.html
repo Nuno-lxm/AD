@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes Receita</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .form-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        a.btn {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+        }
+        a.btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Detalhes da Receita</h2>
+    <p><strong>Utente:</strong> <a href="{% url 'detalhes_utente' receita.utente.id %}">{{ receita.utente.nome }} {{ receita.utente.apelido }}</a></p>
+    <p><strong>Profissional:</strong> <a href="{% url 'detalhes_profissional' receita.profissional.id %}">{{ receita.profissional.nome }} {{ receita.profissional.apelido }}</a></p>
+    <p><strong>Data de Emissão:</strong> {{ receita.data_emissao }}</p>
+    <p><strong>Data de Validade:</strong> {{ receita.data_validade }}</p>
+    <p><strong>Descrição:</strong> {{ receita.descricao }}</p>
+    <p><strong>Prescrições:</strong></p>
+    <ul>
+        {% for prescricao in receita.prescricoes.all %}
+            <li>{{ prescricao.quantidade }} {{ prescricao.medicamento.nome }} - {{ prescricao.descricao }}</li>
+        {% endfor %}
+    </ul>
+    <div class="btn-container">
+        <a href="{% url 'editar_receita' receita.id %}" class="btn">Editar</a>
+        <a href="javascript:window.history.back();" class="btn">Voltar</a>
+    </div>
+</div>
+
+</body>
+</html>

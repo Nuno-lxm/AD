@@ -5,14 +5,21 @@
 :)tirar botao de editar os detalhes se for fornecedor
 :)fornecedores, ao ver medicamento, nao lhes interessa ver lista de fornecedores
 
+criar user com email
+
+criar ato tem de ter aquela ligacao com glm
+
+grupo sanguineo ser de selcionar de uma lista
 
 confirmar questao de threshold
 
-nao dar para editar mais, desaparecer os botoes editar e confirmar de detalhes de encomenda
-
+prescricoes irem buscar os medicamentos atraves de apiview
 
 ---- cenas extra
 
+nao dar para editar mais, desaparecer os botoes editar e confirmar de detalhes de encomenda
+
+na lista de encomendas, passa a mostrar se esta confirmada ou nao
 
 possibilidade de voltar de encoemdna forcar atualizacao de stock, force rrfersh de alguma forma
 o stock aumentar direito e nao so quando apaga
@@ -23,9 +30,9 @@ editar window history back de outra forma
 
 e por botao de confirmar num sitio melhor
 
-por os urls bem foramtados e consistentes
+por os urls bem formatados e consistentes
 
-ver os brasileirimsos e os comentarios do gpt
+ver os brasileirismos e os comentarios do gpt
 
 
 

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Utente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .form-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: #555;
+        }
+        input, textarea, button, select, a.btn {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button, a.btn {
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            color: white;
+            text-decoration: none;
+        }
+        .btn-submit {
+            background-color: #28a745;
+        }
+        .btn-cancel {
+            background-color: #dc3545;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        input[type="date"] {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Adicionar Utente</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="id_nome">Nome:</label>
+        {{ form.nome }}
+
+        <label for="id_apelido">Apelido:</label>
+        {{ form.apelido }}
+
+        <label for="id_data_nascimento">Data de Nascimento:</label>
+        {{ form.data_nascimento }}
+
+        <label for="id_morada">Morada:</label>
+        {{ form.morada }}
+
+        <label for="id_alergias">Alergias:</label>
+        {{ form.alergias }}
+
+        <label for="id_condicoes_cronicas">Condições Crônicas:</label>
+        {{ form.condicoes_cronicas }}
+
+        <label for="id_grupo_sanguineo">Grupo Sanguíneo:</label>
+        {{ form.grupo_sanguineo }}
+
+        <button type="submit" class="btn btn-submit">Submeter</button>
+        <a href="{% url 'gpc_client' %}" class="btn btn-cancel">Cancelar</a>
+    </form>
+</div>
+
+</body>
+</html>

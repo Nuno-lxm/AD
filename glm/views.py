@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -342,15 +343,13 @@ class AtualizarMedicamentoView(APIView):
 
             medicamento.stock -= quantidade
             medicamento.save()
-            if medicamento.stock <= threshold:
-                msg = "Stock atualizado com sucesso. STOCK UNDER THRESHOLD"
 
             return Response({"message": "Stock atualizado com sucesso."}, status=status.HTTP_200_OK)
         except Medicamento.DoesNotExist:
             return Response({"error": "Medicamento não encontrado."}, status=status.HTTP_404_NOT_FOUND)
 
 
-def register_user(request):
+def register_glm_user(request):
     if request.method == 'POST':
         user_form = UserCreationForm(request.POST)  # Use seu formulário de usuário customizado, se necessário
         if user_form.is_valid():
@@ -369,17 +368,21 @@ def register_user(request):
     return render(request, 'registration/register.html', {'user_form': user_form})
 
 
-def login_view(request):
+def login_glm_view(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect(request.GET.get('next', 'glm/glm_client/'))  # Redirecionamento para o app glm
+
+            # Redirecionar para a URL "next" ou para o cliente GLM
+            next_url = request.GET.get('next', reverse('glm_client'))  # Use o nome da URL "glm_client"
+            return redirect(next_url)
     else:
         form = AuthenticationForm()
 
     return render(request, 'registration/login.html', {'form': form})
+
 
 class MedicamentoViewSet(viewsets.ModelViewSet):
     queryset = Medicamento.objects.all()  # Default queryset for all users (admin)
