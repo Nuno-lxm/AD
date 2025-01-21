@@ -74,7 +74,14 @@
         <p><strong>Descrição:</strong> {{ medicamento.descricao }}</p>
         <p><strong>Stock:</strong> {{ medicamento.stock }}</p>
         <p><strong>Threshold:</strong> {{ medicamento.threshold }}</p>
-        <p><strong>Fornecedor:</strong> <a href="{% url 'detalhes_fornecedor' medicamento.fornecedor.id %}" class="item-name">{{ medicamento.fornecedor.nome }}</a><p>
+        <p><strong>Fornecedores:</strong></p>
+        <ul>
+            {% for fornecedor in medicamento.fornecedores.all %}
+                <li>
+                    <a href="{% url 'detalhes_fornecedor' fornecedor.id %}" class="item-name">{{ fornecedor.nome }}</a>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
     <div class="btn-container">
         <a href="javascript:window.history.back();" class="btn btn-cancel">Voltar</a>
@@ -82,6 +89,7 @@
         <a href="{% url 'apagar_medicamento' medicamento.id %}" class="btn btn-delete">Apagar</a>
     </div>
 </div>
+
 
 </body>
 </html>

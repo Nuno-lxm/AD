@@ -84,15 +84,26 @@ def adicionar_medicamento(request):
     if request.method == 'POST':
         form = MedicamentoForm(request.POST)
         if form.is_valid():
-            form.save()
+            medicamento = form.save()
+
+            fornecedores_ids = request.POST.getlist('fornecedores')
+            fornecedores = Fornecedor.objects.filter(id__in=fornecedores_ids)
+            medicamento.fornecedores.set(fornecedores)  # Associa os fornecedores selecionados
+
             return redirect('glm_client')
     else:
         form = MedicamentoForm()
-    return render(request, 'glm/medicamentos/adicionar_medicamento.html', {'form': form})
+
+    fornecedores = Fornecedor.objects.all()
+
+    return render(request, 'glm/medicamentos/adicionar_medicamento.html', {'form': form, 'fornecedores': fornecedores})
+
 
 @login_required
-@user_passes_test(is_staff)
 def adicionar_encomenda(request):
+    medicamentos = Medicamento.objects.all()  # Obtendo todos os medicamentos
+    fornecedores = Fornecedor.objects.all()   # Obtendo todos os fornecedores
+
     if request.method == 'POST':
         form = EncomendaForm(request.POST)
         if form.is_valid():
@@ -106,7 +117,22 @@ def adicionar_encomenda(request):
     else:
         form = EncomendaForm()
 
-    return render(request, 'glm/encomendas/adicionar_encomenda.html', {'form': form})
+    return render(request, 'glm/encomendas/adicionar_encomenda.html', {
+        'form': form,
+        'medicamentos': medicamentos,  # Passando medicamentos para o template
+        'fornecedores': fornecedores   # Passando fornecedores para o template
+    })
+
+
+@login_required
+def get_fornecedores(request, medicamento_id):
+    medicamento = get_object_or_404(Medicamento, id=medicamento_id)
+    fornecedores = medicamento.fornecedores.all()
+
+    fornecedores_data = [{"id": fornecedor.id, "nome": fornecedor.nome} for fornecedor in fornecedores]
+    return JsonResponse({"fornecedores": fornecedores_data})
+
+
 
 @login_required
 def editar_fornecedor(request, id):
@@ -133,14 +159,20 @@ def apagar_fornecedor(request, id):
 @user_passes_test(is_staff)
 def editar_medicamento(request, id):
     medicamento = get_object_or_404(Medicamento, id=id)
+    fornecedores = Fornecedor.objects.all()
+
     if request.method == 'POST':
         form = MedicamentoForm(request.POST, instance=medicamento)
         if form.is_valid():
             form.save()
-            return redirect('glm_client')  # Isso depende de sua implementação
+            return redirect('glm_client')
     else:
         form = MedicamentoForm(instance=medicamento)
-    return render(request, 'glm/medicamentos/editar_medicamento.html', {'form': form})
+
+    return render(request, 'glm/medicamentos/editar_medicamento.html', {
+        'form': form,
+        'fornecedores': fornecedores  # Passando os fornecedores para o template
+    })
 
 @login_required
 @user_passes_test(is_staff)
@@ -184,7 +216,7 @@ def apagar_user(request, user_id):
 def fornecedor_detalhes(request, id):
     fornecedor = get_object_or_404(Fornecedor, id=id)
     encomendas = Encomenda.objects.filter(fornecedor=fornecedor)
-    medicamentos = Medicamento.objects.filter(fornecedor=fornecedor)
+    medicamentos = Medicamento.objects.filter(fornecedores=fornecedor)
     return render(request, 'glm/fornecedores/detalhes_fornecedor.html', {'fornecedor': fornecedor, 'encomendas': encomendas, 'medicamentos': medicamentos})
 
 @login_required

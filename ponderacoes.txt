@@ -1,12 +1,7 @@
 :)fazer lista de encomendas e lista de medicamentos por fornecedor
 :)top se der para carregar neles a partir dai
-
-maganer criar users?
-
-editar window history back de outra forma
-
-lista de forncedores por medicamento
-um medicamento varios fornecedores - gpt ja disse como
+:)lista de forncedores por medicamento
+:)um medicamento varios fornecedores - gpt ja disse como
 
 confirmar questao de threshold
 
@@ -19,8 +14,24 @@ o stock aumentar direito e nao so quando apaga
 
 possibilidade de voltar de encoemdna forcar atualizacao de stock, force rrfersh de alguma forma
 
+maganer criar users?
+
+editar window history back de outra forma
+
 e por botao de confirmar num sitio melhor
 
 por os urls bem foramtados e consistentes
 
 ver os brasileirimsos e os comentarios do gpt
+
+
+
+
+
+
+
+fodasse isto
+
+criar encomenda, fornecedor tem de estar associado ao medicamento
+
+adicionar encomenda matou-se

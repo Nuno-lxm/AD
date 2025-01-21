@@ -8,9 +8,11 @@ class EncomendaSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class MedicamentoSerializer(serializers.ModelSerializer):
+    fornecedores = serializers.PrimaryKeyRelatedField(many=True, queryset=Fornecedor.objects.all())
+
     class Meta:
         model = Medicamento
-        fields = '__all__'
+        fields = ['id', 'nome', 'descricao', 'fornecedores', 'stock', 'threshold']
 
 class FornecedorSerializer(serializers.ModelSerializer):
     class Meta:

@@ -4,7 +4,8 @@ from django.contrib.auth import views as auth_views
 from .views import EncomendaViewSet, MedicamentoViewSet, FornecedorViewSet, AtualizarMedicamentoView, glm_client, \
     adicionar_fornecedor, adicionar_medicamento, adicionar_encomenda, editar_fornecedor, apagar_fornecedor, \
     editar_medicamento, apagar_medicamento, editar_encomenda, apagar_encomenda, fornecedor_detalhes, encomenda_detalhes, \
-    medicamento_detalhes, confirmar_encomenda, register_user, UserViewSet, apagar_user, user_detalhes, login_view
+    medicamento_detalhes, confirmar_encomenda, register_user, UserViewSet, apagar_user, user_detalhes, login_view, \
+    get_fornecedores
 
 router = DefaultRouter()
 router.register(r'encomendas', EncomendaViewSet)
@@ -34,6 +35,7 @@ urlpatterns = [
     path('encomenda/editar/<uuid:id>/', editar_encomenda, name='editar_encomenda'),
     path('encomenda/apagar/<uuid:id>/', apagar_encomenda, name='apagar_encomenda'),
     path('confirmar_encomenda/<uuid:id>/', confirmar_encomenda, name='confirmar_encomenda'),
+    path('get_fornecedores/<uuid:medicamento_id>/', get_fornecedores, name='get_fornecedores'),
 
     #URLs para User
     path('login/', login_view, name='login'),

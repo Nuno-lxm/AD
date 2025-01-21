@@ -19,12 +19,13 @@ class Medicamento(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nome = models.CharField(max_length=100)
     descricao = models.TextField()
-    fornecedor = models.ForeignKey(Fornecedor, on_delete=models.CASCADE)
+    fornecedores = models.ManyToManyField(Fornecedor, blank=True)
     stock = models.IntegerField()
     threshold = models.IntegerField()
 
     def __str__(self):
         return self.nome
+
 
 class Encomenda(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

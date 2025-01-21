@@ -126,22 +126,24 @@
     </div>
 
     <div class="section">
-        <h2>Medicamentos</h2>
-        <div class="list-container">
-            {% if medicamentos %}
-                {% for medicamento in medicamentos %}
-                    <div class="item">
-                        <a href="{% url 'detalhes_medicamento' medicamento.id %}" class="item-name">{{ medicamento.nome }}</a>
-                        <div class="item-details">
-                            <div class="item-info"><strong>Stock:</strong> {{ medicamento.stock }}</div>
-                        </div>
+    <h2>Medicamentos</h2>
+    <div class="list-container">
+        {% if fornecedor.medicamento_set.all %}
+            {% for medicamento in fornecedor.medicamento_set.all %}
+                <div class="item">
+                    <a href="{% url 'detalhes_medicamento' medicamento.id %}" class="item-name">{{ medicamento.nome }}</a>
+                    <div class="item-details">
+                        <div class="item-info"><strong>Stock:</strong> {{ medicamento.stock }}</div>
+                        <div class="item-info"><strong>Threshold:</strong> {{ medicamento.threshold }}</div>
                     </div>
-                {% endfor %}
-            {% else %}
-                <p>Nenhum medicamento encontrado para este fornecedor.</p>
-            {% endif %}
-        </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Nenhum medicamento encontrado para este fornecedor.</p>
+        {% endif %}
     </div>
+</div>
+
 
     <div class="btn-container">
         <a href="javascript:window.history.back();" class="btn btn-cancel">Voltar</a>
