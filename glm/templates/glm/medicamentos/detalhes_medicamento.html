@@ -74,22 +74,28 @@
         <p><strong>Descrição:</strong> {{ medicamento.descricao }}</p>
         <p><strong>Stock:</strong> {{ medicamento.stock }}</p>
         <p><strong>Threshold:</strong> {{ medicamento.threshold }}</p>
-        <p><strong>Fornecedores:</strong></p>
-        <ul>
-            {% for fornecedor in medicamento.fornecedores.all %}
-                <li>
-                    <a href="{% url 'detalhes_fornecedor' fornecedor.id %}" class="item-name">{{ fornecedor.nome }}</a>
-                </li>
-            {% endfor %}
-        </ul>
+
+        {% if fornecedores %}
+            <p><strong>Fornecedores:</strong></p>
+            <ul>
+                {% for fornecedor in fornecedores %}
+                    <li>
+                        <a href="{% url 'detalhes_fornecedor' fornecedor.id %}" class="item-name">{{ fornecedor.nome }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p><strong>Fornecedores:</strong> Não disponível para este utilizador.</p>
+        {% endif %}
     </div>
     <div class="btn-container">
         <a href="javascript:window.history.back();" class="btn btn-cancel">Voltar</a>
-        <a href="{% url 'editar_medicamento' medicamento.id %}" class="btn btn-edit">Editar</a>
+        {% if user.is_staff %}
+            <a href="{% url 'editar_medicamento' medicamento.id %}" class="btn btn-edit">Editar</a>
+        {% endif %}
         <a href="{% url 'apagar_medicamento' medicamento.id %}" class="btn btn-delete">Apagar</a>
     </div>
 </div>
-
 
 </body>
 </html>

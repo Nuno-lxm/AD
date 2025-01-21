@@ -70,8 +70,19 @@
         <p><strong>ID:</strong> {{ user.id }}</p>
         <p><strong>Nome de Utilizador:</strong> {{ user.username }}</p>
     </div>
+
+    {% if fornecedor %}
+    <div class="detalhes">
+        <p><strong>ID do Fornecedor:</strong> {{ fornecedor.id }}</p>
+        <p><strong>Nome:</strong> {{ fornecedor.nome }}</p>
+        <p><strong>Contacto:</strong> {{ fornecedor.contacto }}</p>
+        <p><strong>Email:</strong> {{ fornecedor.email }}</p>
+    </div>
+    {% endif %}
+
     <div class="btn-container">
         <a href="javascript:window.history.back();" class="btn btn-cancel">Voltar</a>
+        <a href="{% url 'editar_fornecedor' fornecedor.id %}" class="btn btn-primary">Editar Perfil</a>
         <a href="{% url 'apagar_user' user.id %}" class="btn btn-delete">Apagar</a>
     </div>
 </div>

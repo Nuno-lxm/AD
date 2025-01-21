@@ -2,17 +2,20 @@
 :)top se der para carregar neles a partir dai
 :)lista de forncedores por medicamento
 :)um medicamento varios fornecedores - gpt ja disse como
+:)tirar botao de editar os detalhes se for fornecedor
+:)fornecedores, ao ver medicamento, nao lhes interessa ver lista de fornecedores
+
 
 confirmar questao de threshold
 
-tirar botao de editar os detalhes se for fornecedor
-
-fornecedores, ao ver medicamento, nao lhes interessa ver lista de fornecedores
-
 nao dar para editar mais, desaparecer os botoes editar e confirmar de detalhes de encomenda
-o stock aumentar direito e nao so quando apaga
+
+
+---- cenas extra
+
 
 possibilidade de voltar de encoemdna forcar atualizacao de stock, force rrfersh de alguma forma
+o stock aumentar direito e nao so quando apaga
 
 maganer criar users?
 

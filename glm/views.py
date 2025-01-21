@@ -13,7 +13,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 import requests
 
-from .forms import FornecedorForm, MedicamentoForm, EncomendaForm, UserForm
+from .forms import FornecedorForm, MedicamentoForm, EncomendaForm, UserForm, FornecedorUserForm
 from .models import Encomenda, Medicamento, Fornecedor
 from .serializers import EncomendaSerializer, MedicamentoSerializer, FornecedorSerializer, UserSerializer
 
@@ -26,17 +26,33 @@ def is_staff(user):
 
 @login_required
 def glm_client(request):
-    fornecedores = Fornecedor.objects.all()
-    medicamentos = Medicamento.objects.all()
-    encomendas = Encomenda.objects.select_related('medicamento').all()
-    users = User.objects.all()  # Buscando todos os usuários
+    # Verificar se o usuário logado é staff ou fornecedor
+    is_staff = request.user.is_staff
+    fornecedor = getattr(request.user, 'fornecedor', None)
+
+    # Filtrar medicamentos e encomendas com base no tipo de usuário
+    fornecedores = Fornecedor.objects.all() if is_staff else None
+
+    if is_staff:
+        medicamentos = Medicamento.objects.all()
+        encomendas = Encomenda.objects.all()
+    else:
+        medicamentos = (
+            Medicamento.objects.filter(fornecedores=fornecedor)
+            if fornecedor else Medicamento.objects.none()
+        )
+        encomendas = (
+            Encomenda.objects.filter(fornecedor=fornecedor)
+            if fornecedor else Encomenda.objects.none()
+        )
+    users = User.objects.all() if is_staff else None
 
     if request.method == 'POST':
         if 'new-supplier' in request.POST:
             form = FornecedorForm(request.POST)
             if form.is_valid():
                 form.save()
-                return redirect('glm_client')  # Redireciona para a mesma página
+                return redirect('glm_client')
         elif 'new-medicine' in request.POST:
             form = MedicamentoForm(request.POST)
             if form.is_valid():
@@ -52,7 +68,7 @@ def glm_client(request):
         'fornecedores': fornecedores,
         'medicamentos': medicamentos,
         'encomendas': encomendas,
-        'users': users  # Adicionando os usuários ao contexto
+        'users': users,
     }
 
     return render(request, 'glm/glm_client.html', context)
@@ -133,18 +149,35 @@ def get_fornecedores(request, medicamento_id):
     return JsonResponse({"fornecedores": fornecedores_data})
 
 
-
 @login_required
 def editar_fornecedor(request, id):
     fornecedor = get_object_or_404(Fornecedor, id=id)
+
     if request.method == 'POST':
-        form = FornecedorForm(request.POST, instance=fornecedor)
+        if request.user.is_staff:
+            form = FornecedorForm(request.POST, instance=fornecedor)
+            # Lógica de associar o usuário ao fornecedor
+            if request.user.is_staff:
+                user_id = request.POST.get('user')
+                if user_id:
+                    user = User.objects.get(id=user_id)
+                    fornecedor.user = user
+        else:
+            form = FornecedorUserForm(request.POST, instance=fornecedor)
+
         if form.is_valid():
             form.save()
             return redirect('glm_client')
     else:
-        form = FornecedorForm(instance=fornecedor)
-    return render(request, 'glm/fornecedores/editar_fornecedor.html', {'form': form})
+        if request.user.is_staff:
+            form = FornecedorForm(instance=fornecedor)
+        else:
+            form = FornecedorUserForm(instance=fornecedor)
+
+    # Filtra os utilizadores que ainda não têm fornecedor associado
+    users_without_supplier = User.objects.filter(fornecedor__isnull=True)
+    return render(request, 'glm/fornecedores/editar_fornecedor.html', {'form': form, 'users': users_without_supplier})
+
 
 @login_required
 @user_passes_test(is_staff)
@@ -222,26 +255,54 @@ def fornecedor_detalhes(request, id):
 @login_required
 def medicamento_detalhes(request, id):
     medicamento = get_object_or_404(Medicamento, id=id)
-    return render(request, 'glm/medicamentos/detalhes_medicamento.html', {'medicamento': medicamento})
+    fornecedores = None
+
+    if request.user.is_staff:
+        fornecedores = Fornecedor.objects.filter(medicamento=medicamento)
+
+    return render(request, 'glm/medicamentos/detalhes_medicamento.html', {
+        'medicamento': medicamento,
+        'fornecedores': fornecedores
+    })
+
 
 @login_required
 def encomenda_detalhes(request, id):
     encomenda = get_object_or_404(Encomenda, id=id)
     return render(request, 'glm/encomendas/detalhes_encomenda.html', {'encomenda': encomenda})
 
+
 @login_required
 def user_detalhes(request, user_id):
     user = get_object_or_404(User, id=user_id)
+    # Se o usuário for fornecedor, obter os detalhes do fornecedor
+    fornecedor = None
+    if hasattr(user, 'fornecedor'):
+        fornecedor = user.fornecedor
+
     context = {
         'user': user,
+        'fornecedor': fornecedor,  # Passando os detalhes do fornecedor, se existirem
     }
     return render(request, 'glm/users/detalhes_user.html', context)
 
+
 @login_required
 def medicamentos_fornecedor(request):
-    fornecedor = request.user.fornecedor  # Obter o fornecedor associado ao usuário logado
-    medicamentos = Medicamento.objects.filter(fornecedor=fornecedor)
-    return render(request, 'medicamentos_fornecedor.html', {'medicamentos': medicamentos})
+    fornecedor = getattr(request.user, 'fornecedor', None)  # Obter o fornecedor associado ao usuário logado
+
+    if not fornecedor:
+        return JsonResponse({"error": "O usuário logado não é associado a nenhum fornecedor."}, status=403)
+
+    medicamentos = Medicamento.objects.filter(fornecedores=fornecedor)
+
+    context = {
+        'fornecedor': fornecedor,
+        'medicamentos': medicamentos,
+        'lista_vazia': not medicamentos.exists(),  # Verifica se a lista de medicamentos está vazia
+    }
+
+    return render(request, 'medicamentos_fornecedor.html', context)
 
 @login_required
 def confirmar_encomenda(request, id):
@@ -270,6 +331,7 @@ class AtualizarMedicamentoView(APIView):
     def post(self, request):
         medicamento_id = request.data.get('medicamento_id')
         quantidade = request.data.get('quantidade')
+        threshold = request.data.get('threshold')
 
         try:
             medicamento = Medicamento.objects.get(id=medicamento_id)
@@ -280,6 +342,9 @@ class AtualizarMedicamentoView(APIView):
 
             medicamento.stock -= quantidade
             medicamento.save()
+            if medicamento.stock <= threshold:
+                msg = "Stock atualizado com sucesso. STOCK UNDER THRESHOLD"
+
             return Response({"message": "Stock atualizado com sucesso."}, status=status.HTTP_200_OK)
         except Medicamento.DoesNotExist:
             return Response({"error": "Medicamento não encontrado."}, status=status.HTTP_404_NOT_FOUND)
@@ -316,34 +381,22 @@ def login_view(request):
 
     return render(request, 'registration/login.html', {'form': form})
 
+class MedicamentoViewSet(viewsets.ModelViewSet):
+    queryset = Medicamento.objects.all()  # Default queryset for all users (admin)
+    serializer_class = MedicamentoSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_staff:
+            return Medicamento.objects.all()  # Staff sees all medicines
+        else:
+            return Medicamento.objects.filter(fornecedores__user=user)  # Supplier sees their own medicines
+
+
+
 class EncomendaViewSet(viewsets.ModelViewSet):
     queryset = Encomenda.objects.all()
     serializer_class = EncomendaSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        """
-        Filtra as encomendas para que fornecedores vejam apenas as suas encomendas.
-        """
-        user = self.request.user
-        if user.is_staff:
-            return Encomenda.objects.all()  # Staff vê todas as encomendas
-        return Encomenda.objects.filter(fornecedor=user)  # Fornecedores veem apenas suas encomendas
-
-
-class MedicamentoViewSet(viewsets.ModelViewSet):
-    queryset = Medicamento.objects.all()
-    serializer_class = MedicamentoSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        """
-        Filtra os medicamentos para que fornecedores vejam apenas os seus medicamentos.
-        """
-        user = self.request.user
-        if user.is_staff:
-            return Medicamento.objects.all()  # Staff vê todos os medicamentos
-        return Medicamento.objects.filter(fornecedor=user)  # Fornecedores veem apenas seus medicamentos
 
 
 class FornecedorViewSet(viewsets.ModelViewSet):

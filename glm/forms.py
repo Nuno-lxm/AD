@@ -15,6 +15,11 @@ class FornecedorForm(forms.ModelForm):
         model = Fornecedor
         fields = ['nome', 'contacto', 'email', 'user']
 
+class FornecedorUserForm(forms.ModelForm):
+    class Meta:
+        model = Fornecedor
+        fields = ['nome', 'contacto', 'email']
+
 class MedicamentoForm(forms.ModelForm):
     class Meta:
         model = Medicamento

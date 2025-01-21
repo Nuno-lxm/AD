@@ -81,7 +81,9 @@
     </div>
     <div class="btn-container">
         <a href="javascript:window.history.back();" class="btn btn-cancel">Voltar</a>
-        <a href="{% url 'editar_encomenda' encomenda.id %}" class="btn btn-edit">Editar</a>
+        {% if user.is_staff %}
+            <a href="{% url 'editar_encomenda' encomenda.id %}" class="btn btn-edit">Editar</a>
+        {% endif %}
         <a href="{% url 'apagar_encomenda' encomenda.id %}" class="btn btn-delete">Apagar</a>
     </div>
 </div>

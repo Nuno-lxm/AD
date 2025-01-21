@@ -168,14 +168,12 @@
                 <div class="list-container">
                     {% if medicamentos %}
                         {% for medicamento in medicamentos %}
-                            {% if medicamento.fornecedor.user == user %}
-                                <div class="item">
-                                    <a href="{% url 'detalhes_medicamento' medicamento.id %}" class="item-name">{{ medicamento.nome }}</a>
-                                    <div class="item-details">
-                                        <div class="item-info"><strong>Stock:</strong> {{ medicamento.stock }}</div>
-                                    </div>
+                            <div class="item">
+                                <a href="{% url 'detalhes_medicamento' medicamento.id %}" class="item-name">{{ medicamento.nome }}</a>
+                                <div class="item-details">
+                                    <div class="item-info"><strong>Stock:</strong> {{ medicamento.stock }}</div>
                                 </div>
-                            {% endif %}
+                            </div>
                         {% endfor %}
                     {% else %}
                         <p>Nenhum medicamento encontrado.</p>
@@ -188,14 +186,12 @@
                 <div class="list-container">
                     {% if encomendas %}
                         {% for encomenda in encomendas %}
-                            {% if encomenda.fornecedor.user == user %}
-                                <div class="item">
-                                    <a href="{% url 'detalhes_encomenda' encomenda.id %}" class="item-name">Encomenda #{{ encomenda.id }}</a>
-                                    <div class="item-details">
-                                        <div class="item-info"><strong>Medicamento:</strong> {{ encomenda.medicamento.nome }}</div>
-                                    </div>
+                            <div class="item">
+                                <a href="{% url 'detalhes_encomenda' encomenda.id %}" class="item-name">Encomenda #{{ encomenda.id }}</a>
+                                <div class="item-details">
+                                    <div class="item-info"><strong>Medicamento:</strong> {{ encomenda.medicamento.nome }}</div>
                                 </div>
-                            {% endif %}
+                            </div>
                         {% endfor %}
                     {% else %}
                         <p>Nenhuma encomenda encontrada.</p>
