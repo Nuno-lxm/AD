@@ -79,15 +79,13 @@
 
     {% if user.is_authenticated %}
         <div class="section">
-            <!-- Botão de Logout -->
-            <form action="{% url 'logout' %}" method="post">
+            <form action="{% url 'login_glm' %}" method="post">
                 {% csrf_token %}
                 <button type="submit" class="btn logout-btn">Logout</button>
             </form>
         </div>
 
         {% if user.is_staff %}
-            <!-- Seção visível apenas para o staff -->
             <div class="section">
                 <h2>Fornecedores</h2>
                 <div class="list-container">
@@ -144,8 +142,7 @@
                 </div>
                 <a href="{% url 'adicionar_encomenda' %}" class="btn btn-primary">Adicionar Encomenda</a>
             </div>
-
-            <!-- Seção de Usuários -->
+            
             <div class="section">
                 <h2>Usuários</h2>
                 <div class="list-container">
@@ -162,7 +159,6 @@
             </div>
 
         {% else %}
-            <!-- Seção visível apenas para fornecedores -->
             <div class="section">
                 <h2>Seus Medicamentos</h2>
                 <div class="list-container">

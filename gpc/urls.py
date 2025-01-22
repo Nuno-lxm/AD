@@ -53,7 +53,7 @@ urlpatterns = [
     # URLs para User
     path('login/', login_gpc_view, name='login_gpc'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('register/', register_gpc_user, name='register_glm'),
+    path('register/', register_gpc_user, name='register_gpc'),
 
     path('user/detalhes/<int:user_id>/', user_detalhes, name='detalhes_user'),
     path('users/apagar/<int:user_id>/', apagar_user, name='apagar_user'),

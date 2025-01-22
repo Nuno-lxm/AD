@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 import uuid
 
@@ -6,6 +7,7 @@ from glm.models import Medicamento
 
 class Utente(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     nome = models.CharField(max_length=100)
     apelido = models.CharField(max_length=100)
     data_nascimento = models.DateField()
@@ -19,6 +21,7 @@ class Utente(models.Model):
 
 class Profissional(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     nome = models.CharField(max_length=100)
     apelido = models.CharField(max_length=100)
     profissao = models.CharField(max_length=50, choices=[('Médico', 'Médico'), ('Enfermeiro', 'Enfermeiro'), ('Farmacêutico', 'Farmacêutico')])
@@ -31,7 +34,7 @@ class Ato(models.Model):
     utente = models.ForeignKey(Utente, on_delete=models.CASCADE)
     profissional = models.ForeignKey(Profissional, on_delete=models.CASCADE)
     tipo = models.CharField(max_length=50)
-    descricao = models.TextField()  # A descrição será o código do medicamento quando for do tipo "dispensa"
+    descricao = models.TextField()
     data_hora = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

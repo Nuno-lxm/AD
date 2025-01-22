@@ -30,5 +30,4 @@ class EncomendaForm(forms.ModelForm):
         model = Encomenda
         fields = ['medicamento', 'fornecedor', 'quantidade']
 
-    # Deixe o fornecedor como um ModelChoiceField
     fornecedor = forms.ModelChoiceField(queryset=Fornecedor.objects.all(), empty_label="Selecione um fornecedor", required=False)

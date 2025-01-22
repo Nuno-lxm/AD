@@ -38,7 +38,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 14px;
-            box-sizing: border-box;  /* Ensure padding doesn't affect width */
+            box-sizing: border-box;
         }
         .btn {
             display: inline-block;
@@ -78,7 +78,7 @@
 <body>
 
     <div class="login-container">
-        <h2>Criar Conta - GPC CLient</h2>
+        <h2>Criar Conta - GPC</h2>
 
         {% if user_form.errors %}
             <div class="error-message">
@@ -88,31 +88,20 @@
 
         <form method="post">
             {% csrf_token %}
-            {{ user_form.as_p }}
-            <label for="role">Tipo de Usuário:</label>
-            <select id="role" name="role">
-                <option value="UTENTE">Utente</option>
-                <option value="PROFISSIONAL">Profissional</option>
-            </select>
-
-            <div id="utente_fields">
-                {{ utente_form.as_p }}
+            <div class="form-group">
+                <label for="id_username">Nome de Usuário</label>
+                {{ user_form.username }}
             </div>
-
-            <div id="profissional_fields" style="display: none;">
-                {{ profissional_form.as_p }}
+            <div class="form-group">
+                <label for="id_password1">Senha</label>
+                {{ user_form.password1 }}
             </div>
-
-            <button type="submit">Registrar</button>
+            <div class="form-group">
+                <label for="id_password2">Confirmar Senha</label>
+                {{ user_form.password2 }}
+            </div>
+            <button type="submit" class="btn">Registrar</button>
         </form>
-
-<script>
-    document.getElementById('role').addEventListener('change', function() {
-        var role = this.value;
-        document.getElementById('utente_fields').style.display = role === 'UTENTE' ? 'block' : 'none';
-        document.getElementById('profissional_fields').style.display = role === 'PROFISSIONAL' ? 'block' : 'none';
-    });
-</script>
 
         <div class="link">
             <p>Já tem uma conta? <a href="{% url 'login_gpc' %}">Faça login</a></p>

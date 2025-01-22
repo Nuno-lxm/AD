@@ -6,12 +6,12 @@ from gpc.models import Utente, Profissional, Ato, Receita, Prescricao
 class UtenteForm(forms.ModelForm):
     class Meta:
         model = Utente
-        fields = ['nome', 'apelido', 'data_nascimento', 'morada', 'alergias', 'condicoes_cronicas', 'grupo_sanguineo']
+        fields = ['nome', 'apelido', 'data_nascimento', 'morada', 'alergias', 'condicoes_cronicas', 'grupo_sanguineo', 'user']
 
 class ProfissionalForm(forms.ModelForm):
     class Meta:
         model = Profissional
-        fields = ['nome', 'apelido', 'profissao']
+        fields = ['nome', 'apelido', 'profissao', 'user']
 
 class AtoForm(forms.ModelForm):
     class Meta:

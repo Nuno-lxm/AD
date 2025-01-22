@@ -82,7 +82,9 @@
 
     <div class="btn-container">
         <a href="javascript:window.history.back();" class="btn btn-cancel">Voltar</a>
+        {% if fornecedor %}
         <a href="{% url 'editar_fornecedor' fornecedor.id %}" class="btn btn-primary">Editar Perfil</a>
+        {% endif %}
         <a href="{% url 'apagar_user' user.id %}" class="btn btn-delete">Apagar</a>
     </div>
 </div>

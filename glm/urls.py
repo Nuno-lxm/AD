@@ -40,7 +40,7 @@ urlpatterns = [
     #URLs para User
     path('login/', login_glm_view, name='login_glm'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('register/', register_glm_user, name='register'),
+    path('register/', register_glm_user, name='register_glm'),
 # URLs para User
     path('user/detalhes/<int:user_id>/', user_detalhes, name='detalhes_user'),
     path('users/apagar/<int:user_id>/', apagar_user, name='apagar_user'),

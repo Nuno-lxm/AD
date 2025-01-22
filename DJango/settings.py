@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
 
@@ -128,6 +129,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_EXEMPT_URLS = [
+    '/glm/atualizar-medicamento/',
+    '/glm/api/',
+    '/gpc/api/',
     '/glm/login/',
     '/gpc/login/',
     '/accounts/register/',  # Se existir uma rota de registro genérica

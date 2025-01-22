@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adicionar Ato</title>
+    <script>
+        function showErrorPopup(message) {
+            alert(message);
+        }
+    </script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -40,7 +45,7 @@
             color: #555;
         }
         input, select, button, a.btn {
-            width: 100%; /* Garante que todos os campos e botões ocupem 100% da largura */
+            width: 100%;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
@@ -74,13 +79,17 @@
         {% csrf_token %}
         {{ form.as_p }}
 
-        <!-- Campo para a data, preenchido automaticamente no back-end -->
         <label for="data_criacao">Data de Criação</label>
         <input type="text" id="data_criacao" name="data_criacao" value="{{ form.data_criacao.value|default:'Hoje' }}" disabled>
 
         <button type="submit" class="btn btn-submit">Submeter</button>
         <a href="{% url 'gpc_client' %}" class="btn btn-cancel">Cancelar</a>
     </form>
+    {% if error %}
+            <script type="text/javascript">
+                showErrorPopup("{{ error }}");
+            </script>
+        {% endif %}
 </div>
 
 </body>
